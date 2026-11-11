@@ -1,0 +1,4 @@
+[
+  {"key": "signal_source_001", "sample": "signal_benchmark", "file": "../inputs/signal.root", "label": 1, "xsec_pb": 1.0, "factor": 1.0},
+  {"key": "background_source_001", "sample": "background_benchmark", "file": "../inputs/background.root", "label": 0, "xsec_pb": 1.0, "factor": 1.0}
+]

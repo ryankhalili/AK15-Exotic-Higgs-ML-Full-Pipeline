@@ -1,0 +1,152 @@
+{
+  "files": [
+    {
+      "file": "cmssw/nano_mc_cfg.py",
+      "source_sha256": "da1b11e92fc0595fc621ecd290417f6da965c94d3b80ad6c0b7775454aa485f1",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "NanoIncludingAK15_UL18NanoAODv2_OnlyNano_mc_cfg.py"
+    },
+    {
+      "file": "cmssw/nano_data_cfg.py",
+      "source_sha256": "29daef20b999b47860a2d26799adc38640483b0c9fcb4cda16d64bff5632351a",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "NanoIncludingAK15_UL18NanoAODv2_OnlyNano_data_cfg.py"
+    },
+    {
+      "file": "cmssw/MyAnalysis/AK15NanoExtras/plugins/AK15ConstituentTableProducer.cc",
+      "source_sha256": "07e51e611b23139ee91b7ce4d16de42ce8d5bf2681f9baafb763c83c1cd34695",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "AK15ConstituentTableProducer.cc"
+    },
+    {
+      "file": "cmssw/MyAnalysis/AK15NanoExtras/plugins/LeadingAK15JetProducer.cc",
+      "source_sha256": "5f501d09d93da0f487e51a133a362b31cbe706dc577d16e1fe688430bb809e91",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "LeadingAK15JetProducer.cc"
+    },
+    {
+      "file": "cmssw/MyAnalysis/AK15NanoExtras/plugins/BuildFile.xml",
+      "source_sha256": "5456af1a81a87b345bb644ba054174b2482a8c1dd27c4b484ae5f76b7f58c07e",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "BuildFile.xml"
+    },
+    {
+      "file": "cmssw/JMEAnalysis/JetToolbox/python/jetToolbox_cff.py",
+      "source_sha256": "888985cfebf9e2cf4604d61a76151c49280f0ed065e9cb2689bbc0f451097ee8",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "jetToolbox_cff.py"
+    },
+    {
+      "file": "cmssw/JMEAnalysis/JetToolbox/python/__init__.py",
+      "source_sha256": "309d6e250ab827bac108c8ea1ac4ccdce2d31f4d75d70390b1633a8e980264b6",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "__init__.py"
+    },
+    {
+      "file": "ntuples/PhysicsAnalysisTreeProducer.C",
+      "source_sha256": "ff7dacc8c5339e23d4dce29e3960ff0e786eb4eba1ed0e61aeaa9a22f886b83b",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "PhysicsAnalysisTreeProducer.C"
+    },
+    {
+      "file": "ntuples/run_physics_analysis_tree.sh",
+      "source_sha256": "5a70514a9092bd0f8ae708b49a2038c4586b79d5fd956c00440d3df0f695ee1b",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "run_physics_analysis_tree.sh"
+    },
+    {
+      "file": "scripts/ml_trial_common.py",
+      "source_sha256": "98b2e4cf33037d9d97db3014e44718f871c3b8f33ff7c7999515c4ec547a1b8b",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "ml_trial_common.py"
+    },
+    {
+      "file": "scripts/full_models.py",
+      "source_sha256": "298bb717241b6805f4bf961f5f8e737b245660b70ca6ea8a7409548165312fad",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "full_models.py"
+    },
+    {
+      "file": "scripts/train_full_models.py",
+      "source_sha256": "c0407ed1d841b92de9fbad4f38a6b117823041d28f3e2cd75bfad97a273cbbda",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "train_full_models.py"
+    },
+    {
+      "file": "scripts/index_full_inputs.py",
+      "source_sha256": "7c52e6c8af5407510dfb4c8270b1706ac5777716570f29a5fe955db64273e96b",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "index_full_inputs.py"
+    },
+    {
+      "file": "scripts/score_new_models.py",
+      "source_sha256": "a0b4ea2f48a54ca90b58ec35efb5e1c98d8d9c82ac3b37b1f8a227ba95ab3998",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "score_new_models.py"
+    },
+    {
+      "file": "scripts/score_root_copy.py",
+      "source_sha256": "28b9eb03a26d81140b14cdd35e33f8db8388b2073247027f1bb40cb1aa2fdf2f",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "score_root_copy.py"
+    },
+    {
+      "file": "scripts/make_selected_pf_ntuple.py",
+      "source_sha256": "86c54de6f90ce15c102a1a280ccb3f7422e8dc4c9151a8ae3bb7a29a4f688a59",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "make_selected_pf_ntuple.py"
+    },
+    {
+      "file": "scripts/train_transformer.py",
+      "source_sha256": "d38df3302925819606e715ade48f3eef6985cba9ff76b0013d77ddd169aa49e9",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "retrain_balanced.py"
+    },
+    {
+      "file": "scripts/warmup.py",
+      "source_sha256": "95a031da6896b8fffe9a463d00f6b3d0bf917eb4123df5afbbdf6732a2013f6b",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "warmup.py"
+    },
+    {
+      "file": "scripts/abcd_statistics.py",
+      "source_sha256": "e82411fcf87ccf06d8c14556dba652a06b9de3e46eba5aaf03871d9cbbce8570",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "abcd_statistics.py"
+    },
+    {
+      "file": "scripts/build_card.py",
+      "source_sha256": "eadd479a3bea347c51e54721aef8755f773208256f280910f41b484eb1f793c2",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "build_card.py"
+    },
+    {
+      "file": "tests/test_score_root_copy.py",
+      "source_sha256": "8e98acc7e6556a7c79e825b19ce46e19e756c28200d324cfd373722423d848cd",
+      "mode": "copy_then_portability_edits",
+      "source_basename": "test_score_root_copy.py"
+    },
+    {
+      "file": "scripts/template_io.py",
+      "source_sha256": "e1556652fef00a357514e55cf4ff3fa301fa1e461b533bc6e929bf5c693e91c3",
+      "functions": [
+        "qcd_spec",
+        "th1"
+      ],
+      "mode": "AST_function_export",
+      "source_basename": "build_physics_templates.py"
+    },
+    {
+      "file": "scripts/limit_checks.py",
+      "source_sha256": "22641cbcab4c3d337d52015193866caa5d848c7b59f20664d0283e6ae2cfcc38",
+      "functions": [
+        "require",
+        "validate_quantiles",
+        "validate_workspace_response"
+      ],
+      "mode": "AST_function_export",
+      "source_basename": "fit.py"
+    }
+  ],
+  "note": "Source-only provenance; exported files may have portability and safety edits."
+}

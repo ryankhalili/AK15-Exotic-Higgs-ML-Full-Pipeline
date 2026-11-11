@@ -1,0 +1,8 @@
+{
+  "key": "signal_source_001",
+  "sample": "signal_benchmark",
+  "source": "sha256:REPLACE_WITH_PARENT_CHECKSUM",
+  "nano_sha256": "REPLACE_WITH_PARENT_CHECKSUM",
+  "compact_sha256": "REPLACE_WITH_COMPACT_CHECKSUM",
+  "is_data": false
+}

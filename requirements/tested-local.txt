@@ -1,0 +1,6 @@
+# Locally exercised together on Python 3.12.3; not a universal GPU lockfile.
+numpy==1.26.4
+awkward==2.14.0
+uproot==5.7.7
+torch==2.5.1
+scikit-learn==1.5.1

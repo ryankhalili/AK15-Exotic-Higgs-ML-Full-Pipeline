@@ -1,0 +1,3 @@
+-r analysis.txt
+torch>=2.2,<3
+scikit-learn>=1.3,<2

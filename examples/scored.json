@@ -1,0 +1,14 @@
+{
+  "luminosity_pb": 1000.0,
+  "score_branch": "ParticleNet_score",
+  "edges": [0.0, 0.5, 1.0],
+  "samples": [
+    {"name": "data", "process": "data", "files": ["../inputs/data_scored.root"], "region_a_selection": "all"},
+    {"name": "signal_benchmark", "process": "signal", "files": ["../inputs/signal_scored.root"], "region_a_selection": "test", "test_fraction": 0.15, "xsec_pb": 1.0, "factor": 1.0, "sum_genweights": 100000.0},
+    {"name": "background_benchmark", "process": "WJets", "files": ["../inputs/background_scored.root"], "region_a_selection": "test", "test_fraction": 0.15, "xsec_pb": 1.0, "factor": 1.0, "sum_genweights": 100000.0},
+    {"name": "dy", "process": "DYJets", "files": ["../inputs/dy_scored.root"], "region_a_selection": "all", "xsec_pb": 1.0, "factor": 1.0, "sum_genweights": 100000.0},
+    {"name": "tt", "process": "TT", "files": ["../inputs/tt_scored.root"], "region_a_selection": "all", "xsec_pb": 1.0, "factor": 1.0, "sum_genweights": 100000.0},
+    {"name": "st", "process": "ST", "files": ["../inputs/st_scored.root"], "region_a_selection": "all", "xsec_pb": 1.0, "factor": 1.0, "sum_genweights": 100000.0},
+    {"name": "vv", "process": "VV", "files": ["../inputs/vv_scored.root"], "region_a_selection": "all", "xsec_pb": 1.0, "factor": 1.0, "sum_genweights": 100000.0}
+  ]
+}

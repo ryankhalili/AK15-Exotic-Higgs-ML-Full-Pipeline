@@ -1,0 +1,2 @@
+-r training.txt
+pytest>=8,<10
