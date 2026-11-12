@@ -47,6 +47,7 @@ scripts/train_transformer.py
 scripts/training_io.py
 scripts/warmup.py
 tests/conftest.py
+tests/test_cmssw_output_name.py
 tests/test_inference.py
 tests/test_pipeline.py
 tests/test_plot_outputs.py

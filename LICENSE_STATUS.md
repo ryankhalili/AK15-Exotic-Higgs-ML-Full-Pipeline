@@ -1,12 +1,14 @@
 # License Status
 
-No repository-wide license has been assigned. Maintainer authorization and
-redistribution rights for the analysis code and derived adapters must be
-resolved before public release.
+No repository-wide license has been assigned. Public availability does not
+grant a blanket license to redistribute or modify this repository. Contact the
+maintainer about reuse of the analysis code and derived adapters.
 
-The vendored JetToolbox source retains its original author attribution. An
-applicable license file and exact upstream revision were not present with this
-copy. These must also be resolved before release. See [THIRD_PARTY.md](THIRD_PARTY.md).
+The maintainer has authorized publication of the included JetToolbox copy with
+its original author attribution. No new license is assigned to that file. An
+applicable license file and exact upstream revision were not supplied with the
+copy; its imported source digest is recorded in `SOURCE_PROVENANCE.json`.
+See [THIRD_PARTY.md](THIRD_PARTY.md) for the upstream project and credits.
 
 No architecture implementation, trained checkpoint, dataset or binary runtime
 is bundled. External dependencies keep their own licenses. Adding external

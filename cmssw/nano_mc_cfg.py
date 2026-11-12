@@ -24,6 +24,8 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 
 options = VarParsing('analysis')
+# Keep the requested filename stable when maxEvents is positive.
+options.setType('outputFile', VarParsing.varType.string)
 options.register(
     'skipEvents',
     0,
