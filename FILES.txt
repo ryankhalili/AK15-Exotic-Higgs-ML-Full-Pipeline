@@ -50,6 +50,7 @@ tests/conftest.py
 tests/test_inference.py
 tests/test_pipeline.py
 tests/test_plot_outputs.py
+tests/test_readme.py
 tests/test_reconstruction_guards.py
 tests/test_score_root_copy.py
 tests/test_source_guards.py

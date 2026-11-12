@@ -1,4 +1,4 @@
-"""Fetch checksum-pinned author models and licenses into a new local directory."""
+"""Download fixed-version Weaver model source and its license notices."""
 import argparse
 import hashlib
 import json
