@@ -61,18 +61,30 @@ packages inside the legacy CMSSW environment.
 
 | Stage | Runtime | Validation in this checkout |
 | --- | --- | --- |
-| MiniAOD -> Nano | CMSSW_10_6_17, slc7_amd64_gcc700, EL7-compatible Linux | Fresh build and real-input test required |
-| Nano -> compact | ROOT/ACLiC in the same CMSSW runtime | Fresh ROOT runtime test required |
-| PF ntuples, tensors, scoring, histograms | Python 3.10+, NumPy, Awkward, uproot | Synthetic ROOT and CLI tests |
-| Training | Separate PyTorch environment and CUDA GPU | Dataset, sampler and CPU checkpoint tests; fresh GPU training required |
-| Cards/workspaces/limits | ROOT, CombineHarvester, Combine | ROOT-free contracts tested; no local likelihood fit |
+| MiniAOD -> Nano | CMSSW_10_6_17, slc7_amd64_gcc700, EL7-compatible Linux | Fresh build and 100-event MC reconstruction |
+| Nano -> compact | ROOT 6.14/09 and ACLiC in the same CMSSW runtime | Complete, limited and empty inputs; malformed input rejected |
+| PF ntuples, tensors, scoring, histograms | Python 3.10+, NumPy, Awkward, uproot | Nonempty synthetic Nano/compact join; score preservation and histogram CLI tests |
+| Training | Separate PyTorch environment and CUDA GPU | Full ParticleNet and ParT short synthetic training runs; CPU checkpoint roundtrips |
+| Cards/workspaces/limits | ROOT, CombineHarvester, Combine | Two-bin synthetic fit through card, workspace checks and five expected quantiles |
+
+The small reconstruction sample had no events passing the final selection;
+nonempty constituent attachment was checked separately with a six-event matched
+fixture. Both networks scored 4736 synthetic rows with original ROOT content
+preserved and saved test scores reproduced within the required tolerance.
+GPU checks used Python 3.12 and PyTorch 2.5.1 with CUDA 12.4. Real-data MiniAOD
+reconstruction and production-scale performance need separate checks. Physics
+use also requires dataset-specific calibrations and background validation.
 
 The standard-TH1 workflow targets **Combine v11.1.0**,
 `pass autoMCStats 0 1 2`, and per-bin workspace response checks. The public
 container digest and CVMFS entry point are in
 [combine-runtime.json](environments/combine-runtime.json). The CVMFS alias can
 change independently of that image. Record tool versions and run the workspace
-checks in your installation. Batch submission is managed separately.
+checks in your installation. Use an AVX2-capable x86-64 worker for this container;
+an older CPU can fail with an illegal-instruction error before Combine starts.
+For HTCondor sites exposing these attributes, require
+`TARGET.has_avx2 =?= True` and an EL9-compatible worker. Check the local attribute
+names and container support. Batch submission is managed separately.
 
 ### Python For Analysis And Models
 
