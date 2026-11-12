@@ -6,7 +6,7 @@ from pathlib import Path
 import awkward as ak
 import numpy as np
 import uproot
-from ml_trial_common import tensors
+from particle_features import tensors
 from score_new_models import fingerprint
 
 META = np.dtype([('event_key', 'S64'), ('content_key', 'S64'), ('full_key', 'S64'),

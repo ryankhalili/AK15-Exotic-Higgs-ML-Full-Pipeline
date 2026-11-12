@@ -8,15 +8,6 @@ FEATURES = ["deta", "dphi", "log_pt", "log_pt_fraction", "log_energy_fraction",
 CAP = 256
 
 
-def event_key(sample, source, entry):
-    return hashlib.sha256((sample + "|" + source + "|" + str(int(entry))).encode()).hexdigest()
-
-
-def split_key(key):
-    value = int(key[:16], 16) % 10
-    return 0 if value < 8 else value - 7
-
-
 def require_unique_inputs(x, v, mask):
     """Reject repeated physical inputs even when source-derived keys differ."""
     if not len(x) == len(v) == len(mask):
@@ -36,7 +27,7 @@ def require_unique_inputs(x, v, mask):
 
 
 def tensors(p, jet_pt, jet_eta, jet_phi, jet_mass, cap=CAP):
-    """Identical reconstructed-PF features for old flat and ordinary Nano inputs."""
+    """Build pT-ordered constituent features, four-vectors and a padding mask."""
     if not isinstance(cap, int) or cap < 1:
         raise ValueError("Constituent cap must be a positive integer")
     order = np.argsort(-np.asarray(p["pt"]), kind="stable")[:cap]

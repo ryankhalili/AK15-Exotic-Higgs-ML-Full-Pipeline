@@ -55,7 +55,7 @@
       "source_basename": "run_physics_analysis_tree.sh"
     },
     {
-      "file": "scripts/ml_trial_common.py",
+      "file": "scripts/particle_features.py",
       "source_sha256": "98b2e4cf33037d9d97db3014e44718f871c3b8f33ff7c7999515c4ec547a1b8b",
       "mode": "copy_then_portability_edits",
       "source_basename": "ml_trial_common.py"

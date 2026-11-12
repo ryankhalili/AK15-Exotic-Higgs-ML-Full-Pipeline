@@ -1,6 +1,6 @@
 # AK15 Exotic Higgs ML Full Pipeline
 
-Modular source pipeline for MiniAOD -> leading-AK15 NanoAOD -> selected full-PF
+Pipeline for MiniAOD -> leading-AK15 NanoAOD -> selected full-PF
 ntuples -> ParticleNet/Particle Transformer -> scored ROOT -> score TH1 templates
 -> CombineHarvester cards -> expected limits. Each stage has its own entry point;
 start at training or at scored samples without running reconstruction.
@@ -12,31 +12,41 @@ git clone https://github.com/ryankhalili/AK15-Exotic-Higgs-ML-Full-Pipeline.git
 cd AK15-Exotic-Higgs-ML-Full-Pipeline
 ```
 
-This is a source-only staging release, not a bundled dataset, trained-model
-release, or validated branching-fraction result. See [license status](LICENSE_STATUS.md)
-before redistribution. The examples contain illustrative numbers and nonexistent
-input filenames, not analysis inputs or recommended physical normalizations.
+The repository contains reconstruction, training, inference and statistical
+analysis code. Datasets and trained weights are supplied separately. See
+[license status](LICENSE_STATUS.md) before redistribution.
+
+| Available input | Start here |
+| --- | --- |
+| MiniAOD | [Reconstruction](#enter-at-miniaod) |
+| NanoAOD or selected PF ntuples | [Ntuple preparation](#enter-at-nano-or-ntuples) |
+| Selected PF ntuples | [Training](#enter-at-training) |
+| Trained models and ntuples | [Inference](#score-selected-ntuples) |
+| Scored ntuples | [Histograms](#enter-at-scored-samples) |
+| Score histograms | [Datacards and limits](#cards-and-limits) |
+
+Example manifests define the input format. Replace their filenames and
+illustrative normalization constants with values for your samples.
 
 ## Environments
 
 Use separate shells/environments for these stages. Do not install modern Python
 packages inside the legacy CMSSW environment.
 
-| Stage | Runtime | Export validation |
+| Stage | Runtime | Validation in this checkout |
 | --- | --- | --- |
-| MiniAOD -> Nano | CMSSW_10_6_17, slc7_amd64_gcc700, EL7-compatible Linux | Source exported; build/real input smoke still required |
-| Nano -> compact | ROOT/ACLiC in the same CMSSW runtime | Source exported; runtime smoke still required |
+| MiniAOD -> Nano | CMSSW_10_6_17, slc7_amd64_gcc700, EL7-compatible Linux | Fresh build and real-input test required |
+| Nano -> compact | ROOT/ACLiC in the same CMSSW runtime | Fresh ROOT runtime test required |
 | PF ntuples, tensors, scoring, histograms | Python 3.10+, NumPy, Awkward, uproot | Synthetic ROOT and CLI tests |
-| Training | Separate PyTorch environment and CUDA GPU | Dataset/sampler tests; no new GPU training run |
+| Training | Separate PyTorch environment and CUDA GPU | Dataset, sampler and CPU checkpoint tests; fresh GPU training required |
 | Cards/workspaces/limits | ROOT, CombineHarvester, Combine | ROOT-free contracts tested; no local likelihood fit |
 
-The recorded successful standard-TH1 environment used **Combine v11.1.0**,
+The standard-TH1 workflow targets **Combine v11.1.0**,
 `pass autoMCStats 0 1 2`, and per-bin workspace response checks. The public
 container digest and CVMFS entry point are in
-[combine-runtime.json](environments/combine-runtime.json). This is not a claim
-that any arbitrary current ROOT/CH installation is equivalent: the CVMFS alias
-is independently mutable. Record the actual tool versions and rerun the
-workspace checks for your installation. No cluster account or batch system is required.
+[combine-runtime.json](environments/combine-runtime.json). The CVMFS alias can
+change independently of that image. Record tool versions and run the workspace
+checks in your installation. Batch submission is managed separately.
 
 From a checkout root, in a modern Python environment:
 
@@ -187,7 +197,7 @@ python scripts/plot_outputs.py stack --templates work/templates/histograms.root 
   --signal-scale 1000 --log --output work/score_plot
 ```
 
-This intentionally narrow adapter supports one signal hypothesis and the WJets,
+The histogram builder supports one signal hypothesis and the WJets,
 DYJets, TT, ST and VV process groups in one pass category. It recomputes ABCD
 subtraction for every invocation. It does not add QCD MC to the stack. Data
 overlaps are deduplicated only when region and score agree exactly; conflicting
@@ -234,7 +244,7 @@ contamination and unmodeled correlations need independent treatment. No physical
 signal cross section or cascade branching convention is inferred. PN and ParT
 score the same events and must not be combined as independent categories.
 
-## Tests And Release Scope
+## Tests
 
 ```bash
 python -m pip install -r requirements/test.txt
@@ -250,7 +260,12 @@ Tests generate only temporary synthetic inputs. Local coverage includes tensor
 preparation/indexing, train-only preprocessing, balanced sampling, single/dual
 score ROOT preservation, signed histograms, overlap/membership rejection, ABCD
 covariance, expected-only command/quantile checks, and CLI help. The optional
-architecture roundtrip does not establish trained model quality or GPU replay.
+architecture roundtrips cover both full and compact profiles. They test model
+loading and score preservation, not trained performance or GPU reproducibility.
+GitHub Actions runs these checks on Linux and Windows with checksum-pinned
+architecture sources.
+
+## Scope
 
 Not included: data discovery/download, credential handling, batch submission,
 automatic recovery, pretrained weights, production input lists/results, plot

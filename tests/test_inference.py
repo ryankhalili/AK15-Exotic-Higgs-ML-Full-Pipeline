@@ -9,7 +9,7 @@ import pytest
 import torch
 from sklearn.metrics import roc_auc_score
 from full_models import architecture, model_for, forward
-from ml_trial_common import FEATURES, tensors
+from particle_features import FEATURES, tensors
 from score_new_models import NewFrozenModels, fingerprint, sha256, validate_result
 from score_root_copy import augment
 from test_score_root_copy import source
@@ -51,7 +51,8 @@ def test_identity_and_replay_guards_without_external_models(tmp_path):
 
 
 @pytest.mark.skipif(not os.environ.get('AK15_MODEL_SOURCE_DIR'), reason='Author architecture source not bundled; set AK15_MODEL_SOURCE_DIR')
-def test_frozen_model_roundtrip_and_tamper_guard(tmp_path):
+@pytest.mark.parametrize('profile', ['compact', 'full'])
+def test_frozen_model_roundtrip_and_tamper_guard(tmp_path, profile):
     models = Path(os.environ['AK15_MODEL_SOURCE_DIR'])
     torch.set_num_threads(2)
     torch.manual_seed(17)
@@ -80,10 +81,10 @@ def test_frozen_model_roundtrip_and_tamper_guard(tmp_path):
         (directory/'indexed').mkdir(parents=True)
         (directory/'results').mkdir()
         np.savez(directory/'indexed/index.npz', **index)
-        config = dict(model=name, profile='compact', epochs=1, cap=256, features=FEATURES,
-                      seed=17, mean=[0.]*12, std=[1.]*12, architecture=architecture(name,'compact'),
+        config = dict(model=name, profile=profile, epochs=1, cap=256, features=FEATURES,
+                      seed=17, mean=[0.]*12, std=[1.]*12, architecture=architecture(name,profile),
                       model_sha256=sha256(models/(name+'.py')), index_sha256=sha256(directory/'indexed/index.npz'))
-        model = model_for(name,models,'compact').eval()
+        model = model_for(name,models,profile).eval()
         with torch.no_grad():
             score = torch.softmax(forward(name,model,*[torch.from_numpy(a) for a in (x,v,mask,x[:,:2])]),1)[:,1].numpy()
         (directory/'results/configuration.json').write_text(json.dumps(config))

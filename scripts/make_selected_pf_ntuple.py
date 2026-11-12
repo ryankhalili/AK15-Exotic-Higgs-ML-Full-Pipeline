@@ -52,25 +52,36 @@ def validate_selection(a, metadata, is_data):
                  'muonMetTransverseMass'):
         if not np.isfinite(a[name]).all():
             raise ValueError('Nonfinite selected field: ' + name)
-    if not (int(metadata["abcdMode"][0]) == 1): raise ValueError('Input invariant failed: int(metadata["abcdMode"][0]) == 1')
-    if not (str(metadata["metBranchPrefix"][0]) == "MET"): raise ValueError('Input invariant failed: str(metadata["metBranchPrefix"][0]) == "MET"')
-    if not (np.isclose(metadata["muonEtaMax"][0], 2.4)): raise ValueError('Input invariant failed: np.isclose(metadata["muonEtaMax"][0], 2.4)')
-    if not (np.all(a["isData"] == int(is_data))): raise ValueError('Input invariant failed: np.all(a["isData"] == int(is_data))')
-    if not (np.all(a["selectedMuonTightId"] == 1)): raise ValueError('Input invariant failed: np.all(a["selectedMuonTightId"] == 1)')
-    if not (np.all(a["selectedMuonPt"] > 55)): raise ValueError('Input invariant failed: np.all(a["selectedMuonPt"] > 55)')
-    if not (np.all(abs(a["selectedMuonEta"]) < 2.4)): raise ValueError('Input invariant failed: np.all(abs(a["selectedMuonEta"]) < 2.4)')
-    if not (np.all(a["selectedMuonIso"] < .5)): raise ValueError('Input invariant failed: np.all(a["selectedMuonIso"] < .5)')
-    if not (np.all(a["jet_pt"] > 200) and np.all(abs(a["jet_eta"]) < 3)): raise ValueError('Input invariant failed: np.all(a["jet_pt"] > 200) and np.all(abs(a["jet_eta"]) < 3)')
-    if not (np.all(a["eventHT"] > 200) and np.all(a["met_pt"] > 30)): raise ValueError('Input invariant failed: np.all(a["eventHT"] > 200) and np.all(a["met_pt"] > 30)')
-    if not (np.all(abs(a["muonJetDeltaPhi"]) > 1.5)): raise ValueError('Input invariant failed: np.all(abs(a["muonJetDeltaPhi"]) > 1.5)')
-    if not (np.all(abs(a["metJetDeltaPhi"]) > 1)): raise ValueError('Input invariant failed: np.all(abs(a["metJetDeltaPhi"]) > 1)')
+    checks = [
+        (int(metadata['abcdMode'][0]) == 1, 'ABCD candidates required'),
+        (str(metadata['metBranchPrefix'][0]) == 'MET', 'PF MET required'),
+        (np.isclose(metadata['muonEtaMax'][0], 2.4), 'Muon eta metadata differs from selection'),
+        (np.all(a['isData'] == int(is_data)), 'Data flag differs from source specification'),
+        (np.all(a['selectedMuonTightId'] == 1), 'Muon tight ID failed'),
+        (np.all(a['selectedMuonPt'] > 55), 'Muon pT must exceed 55 GeV'),
+        (np.all(abs(a['selectedMuonEta']) < 2.4), 'Muon abs(eta) must be below 2.4'),
+        (np.all(a['selectedMuonIso'] < .5), 'Muon relative isolation must be below 0.5'),
+        (np.all(a['jet_pt'] > 200), 'AK15 pT must exceed 200 GeV'),
+        (np.all(abs(a['jet_eta']) < 3), 'AK15 abs(eta) must be below 3'),
+        (np.all(a['eventHT'] > 200), 'Reconstructed HT must exceed 200 GeV'),
+        (np.all(a['met_pt'] > 30), 'PF MET must exceed 30 GeV'),
+        (np.all(abs(a['muonJetDeltaPhi']) > 1.5), 'Muon-jet azimuthal separation failed'),
+        (np.all(abs(a['metJetDeltaPhi']) > 1), 'MET-jet azimuthal separation failed'),
+    ]
+    for valid, message in checks:
+        if not valid:
+            raise ValueError(message)
     region = np.where(a["selectedMuonIso"] < .15, 1, 3) + (a["muonMetTransverseMass"] <= 50)
-    if not (np.array_equal(region, a["abcdRegion"])): raise ValueError('Input invariant failed: np.array_equal(region, a["abcdRegion"])')
-    if not (len(set(a["inputEntry"].tolist())) == len(region)): raise ValueError('Input invariant failed: len(set(a["inputEntry"].tolist())) == len(region)')
+    if not np.array_equal(region, a['abcdRegion']):
+        raise ValueError('Stored ABCD region differs from isolation and transverse mass')
+    if len(set(a['inputEntry'].tolist())) != len(region):
+        raise ValueError('Repeated parent entry in compact file')
     if is_data:
-        if not (np.all(a["genWeight"] == 1)): raise ValueError('Input invariant failed: np.all(a["genWeight"] == 1)')
+        if not np.all(a['genWeight'] == 1):
+            raise ValueError('Data must have unit generator weights')
     else:
-        if not (np.all(a["hasGenWeight"] == 1)): raise ValueError('Input invariant failed: np.all(a["hasGenWeight"] == 1)')
+        if not np.all(a['hasGenWeight'] == 1):
+            raise ValueError('MC generator weights are missing')
 
 
 def main():

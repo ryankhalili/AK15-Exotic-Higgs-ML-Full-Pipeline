@@ -1,4 +1,5 @@
 .gitattributes
+.github/workflows/tests.yml
 .gitignore
 FILES.txt
 LICENSE_STATUS.md
@@ -34,7 +35,7 @@ scripts/index_full_inputs.py
 scripts/limit_checks.py
 scripts/make_ntuple_spec.py
 scripts/make_selected_pf_ntuple.py
-scripts/ml_trial_common.py
+scripts/particle_features.py
 scripts/plot_outputs.py
 scripts/prepare_training.py
 scripts/score_histograms.py

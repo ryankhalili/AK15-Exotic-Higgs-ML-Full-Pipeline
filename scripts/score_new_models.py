@@ -9,7 +9,7 @@ import sys
 
 import numpy as np
 from full_models import architecture, model_for, forward
-from ml_trial_common import FEATURES, tensors
+from particle_features import FEATURES, tensors
 from training_io import strict_precision
 
 MODEL_NAMES = ('ParticleNet', 'ParticleTransformer')

@@ -14,7 +14,7 @@ from expected_limits import commands
 from full_models import architecture
 from index_full_inputs import split_for, require_unique
 from limit_checks import validate_quantiles
-from ml_trial_common import training_weights
+from particle_features import training_weights
 from prepare_training import prepare
 from score_histograms import build, collect, validate_config
 from training_io import load_index
@@ -124,6 +124,28 @@ def test_score_endpoints_and_unit_data_weights(tmp_path):
     config['samples'][1]['files'].append('signal.root')
     with pytest.raises(ValueError, match='Repeated input'):
         collect(config, tmp_path)
+
+
+def test_process_factor_scales_mc_once_and_recomputes_qcd(tmp_path):
+    config = histogram_config(tmp_path)
+    _, before, _ = collect(config, tmp_path)
+    changed = copy.deepcopy(config)
+    dy = next(s for s in changed['samples'] if s['process'] == 'DYJets')
+    dy['factor'] = 1.23
+    _, after, _ = collect(changed, tmp_path)
+    np.testing.assert_allclose(after['DYJets'][0], before['DYJets'][0] * 1.23)
+    np.testing.assert_allclose(after['DYJets'][1], before['DYJets'][1] * 1.23**2)
+    for process in before:
+        if process != 'DYJets':
+            np.testing.assert_array_equal(after[process], before[process])
+    residual = after['data'][0] - sum(after[p][0] for p in PROCESSES[2:])
+    b, c, d = residual[1:].sum(axis=1)
+    path = tmp_path / 'changed.json'
+    path.write_text(json.dumps(changed))
+    report = build(path, tmp_path / 'changed')
+    assert report['qcd_yield'] == pytest.approx(b * c / d)
+    old_residual = before['data'][0] - sum(before[p][0] for p in PROCESSES[2:])
+    assert not np.array_equal(residual[1:], old_residual[1:])
 
 
 def test_prepare_index_and_train_only_preprocessing(tmp_path):

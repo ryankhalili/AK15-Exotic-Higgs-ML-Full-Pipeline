@@ -29,6 +29,29 @@ def test_selected_nonfinite_and_negative_entries():
         validate_selection(row, metadata, False)
 
 
+@pytest.mark.parametrize('field,value,message', [
+    ('isData', 1, 'Data flag'),
+    ('selectedMuonTightId', 0, 'tight ID'),
+    ('selectedMuonPt', 55., 'Muon pT'),
+    ('selectedMuonEta', -2.4, 'Muon abs'),
+    ('selectedMuonIso', .5, 'isolation'),
+    ('jet_pt', 200., 'AK15 pT'),
+    ('jet_eta', 3., 'AK15 abs'),
+    ('eventHT', 200., 'HT'),
+    ('met_pt', 30., 'PF MET'),
+    ('muonJetDeltaPhi', -1.5, 'Muon-jet'),
+    ('metJetDeltaPhi', -1., 'MET-jet'),
+    ('abcdRegion', 2, 'ABCD region'),
+    ('hasGenWeight', 0, 'generator weights'),
+])
+def test_selection_boundaries(field, value, message):
+    metadata = dict(abcdMode=[1], metBranchPrefix=['MET'], muonEtaMax=[2.4])
+    row = selected()
+    row[field] = np.asarray([value])
+    with pytest.raises(ValueError, match=message):
+        validate_selection(row, metadata, False)
+
+
 def test_parent_checksums_and_sample_binding(tmp_path):
     nano, compact = tmp_path/'nano.bin', tmp_path/'compact.bin'
     nano.write_bytes(b'parent')

@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import os
 import numpy as np
-from ml_trial_common import FEATURES, training_weights
+from particle_features import FEATURES, training_weights
 
 SEED=12345
 
@@ -37,7 +37,8 @@ def main():
     for path in paths:
         record=json.loads(path.read_text())
         if cap is None: cap=record['cap']
-        if not (cap==record['cap']): raise ValueError("Input invariant failed: cap==record['cap']")
+        if cap != record['cap']:
+            raise ValueError('Constituent caps differ between prepared manifests')
         for row in record['sources']:
             if row['key'] in sources: raise ValueError('Repeated source key')
             sources[row['key']]=row
@@ -63,9 +64,11 @@ def main():
     for si,shard in enumerate(shards):
         directory=Path(shard['directory'])
         for key,checksum in shard['sha256'].items():
-            if not (hashlib.sha256((directory/(shard['stem']+'_'+key+'.npy')).read_bytes()).hexdigest()==checksum): raise ValueError("Input invariant failed: hashlib.sha256((directory/(shard['stem']+'_'+key+'.npy')).read_bytes()).hexdigest()==checksum")
+            if hashlib.sha256((directory/(shard['stem']+'_'+key+'.npy')).read_bytes()).hexdigest() != checksum:
+                raise ValueError('Tensor checksum mismatch: '+shard['stem']+'_'+key)
         a=np.load(directory/(shard['stem']+'_meta.npy'),allow_pickle=False)
-        if not (len(a)==shard['rows']): raise ValueError("Input invariant failed: len(a)==shard['rows']")
+        if len(a) != shard['rows']:
+            raise ValueError('Tensor metadata row count differs from shard manifest')
         source=sources[shard['source_key']]
         meta.append(a); samples.extend([source['sample']]*len(a)); labels.extend([source['label']]*len(a))
         shard_ids.extend([si]*len(a)); offsets.extend(range(len(a)))

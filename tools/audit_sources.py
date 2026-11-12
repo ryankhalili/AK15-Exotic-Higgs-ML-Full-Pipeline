@@ -6,7 +6,7 @@ import re
 import subprocess
 
 IGNORED = {'.git', '.venv', '.work', 'work', 'inputs', 'external', '__pycache__', '.pytest_cache'}
-SUFFIXES = {'.py', '.C', '.cc', '.h', '.xml', '.json', '.md', '.txt', '.ini', '.sh'}
+SUFFIXES = {'.py', '.C', '.cc', '.h', '.xml', '.json', '.md', '.txt', '.ini', '.sh', '.yml', '.yaml'}
 PATTERNS = {
     'personal_windows_path': re.compile(r'(?i)(?<![A-Za-z])[A-Z]:[\\/]'),
     'private_storage_path': re.compile(r'/(?:afs|nfs_scratch|hdfs|store/user)/'),

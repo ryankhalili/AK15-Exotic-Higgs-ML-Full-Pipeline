@@ -4,6 +4,6 @@
   "cvmfs_runtime_entrypoint": "/cvmfs/cms.cern.ch/cat/combine_alias/exec_script.sh",
   "auto_mc_stats": "pass autoMCStats 0 1 2",
   "workspace_response_check_required": true,
-  "root_and_combineharvester_exact_versions": "Not independently pinned by this export; record at execution",
+  "root_and_combineharvester_exact_versions": "Record at execution; not independently pinned",
   "caveat": "Image digest and mutable CVMFS alias are separate dependencies. A new installation still requires an integration smoke."
 }
