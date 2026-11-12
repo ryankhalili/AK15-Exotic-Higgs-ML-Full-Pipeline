@@ -821,8 +821,11 @@ int PhysicsAnalysisTreeProducer(const char* inputFile = "input_nano.root",
     selectedSumGenWeights += eventWeight;
   }
 
+  // ROOT 6.14 can report kEntryNotFound when advancing past a complete TChain.
+  const bool legacyEndOfInput = reader.GetEntryStatus() == TTreeReader::kEntryNotFound &&
+      processed == inputEntries;
   if (!stoppedAtMaxEvents && inputEntries != 0 &&
-      reader.GetEntryStatus() != TTreeReader::kEntryBeyondEnd) {
+      reader.GetEntryStatus() != TTreeReader::kEntryBeyondEnd && !legacyEndOfInput) {
     std::cerr << "ERROR: abnormal TTreeReader termination, status="
               << static_cast<int>(reader.GetEntryStatus())
               << ", processed=" << processed << std::endl;

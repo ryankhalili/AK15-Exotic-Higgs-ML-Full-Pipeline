@@ -176,9 +176,12 @@ class ReconstructionStaticTests(unittest.TestCase):
         self.assertIn('stoppedAtMaxEvents ? "max-events" : "end-of-input"', MACRO)
 
     def test_abnormal_termination_and_short_reads_fail_before_publication(self):
+        legacy = MACRO.split('const bool legacyEndOfInput =', 1)[1].split(';', 1)[0]
+        self.assertIn('reader.GetEntryStatus() == TTreeReader::kEntryNotFound &&', legacy)
+        self.assertIn('processed == inputEntries', legacy)
         guard = MACRO.index('if (!stoppedAtMaxEvents && inputEntries != 0 &&')
         check = MACRO[guard:MACRO.index('normalization.SetBinContent(1,')]
-        self.assertIn('reader.GetEntryStatus() != TTreeReader::kEntryBeyondEnd', check)
+        self.assertIn('reader.GetEntryStatus() != TTreeReader::kEntryBeyondEnd && !legacyEndOfInput', check)
         self.assertIn('maxEvents >= 0 ? std::min(maxEvents, inputEntries) : inputEntries', check)
         self.assertIn('if (processed != expectedProcessed)', check)
         self.assertEqual(check.count('return 6;'), 2)
